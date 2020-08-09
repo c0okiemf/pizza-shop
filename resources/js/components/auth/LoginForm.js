@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Link, Redirect, withRouter} from 'react-router-dom';
-import FlashMessage from 'react-flash-message';
 import {
     fetchUserFromLocalStorage,
     login,
     makeUserStateFromResponse,
     storeUserInLocalStorage
-} from "../helpers/componentHelpers";
+} from "../../helpers/user";
+import {LOGIN_ROUTE} from "../../helpers/routes"
+import {addCatch, DEFAULT_ERROR_MESSAGE, notifyError, notifySuccess} from "../../helpers/notifications"
 
 class LoginForm extends Component {
 
@@ -14,7 +15,6 @@ class LoginForm extends Component {
         super(props)
         this.state = {
             isLoggedIn: false,
-            error: '',
             formSubmitting: false,
             user: {
                 email: '',
@@ -27,10 +27,15 @@ class LoginForm extends Component {
     componentDidMount(prevProps) {
         let newState = fetchUserFromLocalStorage(this.state)
         const { prevLocation } = this.state.location.state || { prevLocation: { pathname: '/' } }
-        if (newState.isLoggedIn) {
+        this.redirectIfLoggedIn(newState.isLoggedIn)
+        this.setState(newState)
+    }
+
+    redirectIfLoggedIn = (isLoggedIn) => {
+        const { prevLocation } = this.state.location.state || { prevLocation: { pathname: '/' } }
+        if (isLoggedIn) {
             this.props.history.push(prevLocation)
         }
-        this.setState(newState)
     }
 
     handleSubmit = (e) => {
@@ -39,43 +44,25 @@ class LoginForm extends Component {
             formSubmitting: true
         })
         let userData = this.state.user
-        login(userData)
-            .then(json => {
-                if (json.data.success) {
-                    let userState = makeUserStateFromResponse(json)
-                    storeUserInLocalStorage(userState)
-                    this.setState({
-                        isRegistered: userState.isRegistered,
-                        isLoggedIn: userState.isLoggedIn,
-                        user: userState.user,
-                        error: ""
-                    })
-                    location.reload()
-                } else {
-                    alert(`Our System Failed To Register Your Account!`)
-                }
-            })
-            .catch(error => {
-                if (error.response) {
-                    let err = error.response.data
-                    this.setState({
-                        error: err.message,
-                        errorMessage: err.errors,
-                        formSubmitting: false
-                    })
-                } else {
-                    let err = error.message
-                    this.setState({
-                        error: {
-                            0: err
-                        },
-                        formSubmitting: false
-                    })
-                }
-            })
-            .finally(() =>
-                this.setState({error: ''})
-            )
+        addCatch(
+            axios.post(LOGIN_ROUTE, userData)
+                .then(response => response)
+                .then(json => {
+                    if (json.data.success) {
+                        let userState = makeUserStateFromResponse(json)
+                        storeUserInLocalStorage(userState)
+                        notifySuccess("You logged in successfully.")
+                        this.setState({
+                            isRegistered: userState.isRegistered,
+                            isLoggedIn: userState.isLoggedIn,
+                            user: userState.user
+                        })
+                        this.redirectIfLoggedIn(userState.isLoggedIn)
+                    } else {
+                        throw new Error()
+                    }
+                })
+        )
     }
 
     handleEmail = (e) => {
@@ -98,32 +85,11 @@ class LoginForm extends Component {
         }))
     }
 
-    stateError = () => {
-        const { state = {} } = this.state.location
-        const { error } = state
-        return error
-    }
-
     render = () => (
         <div className="container">
             <div className="row">
                 <div className="offset-xl-3 col-xl-6 offset-lg-1 col-lg-10 col-md-12 col-sm-12 col-12 ">
                     <h2 className="text-center mb30">Log In To Your Account</h2>
-                    {this.state.isLoggedIn &&
-                    <FlashMessage duration={60000} persistOnHover={true}>
-                        <h5 className={"alert alert-success"}>Login successful, redirecting...</h5>
-                    </FlashMessage>
-                    }
-                    {this.state.error &&
-                    <FlashMessage duration={100000} persistOnHover={true}>
-                        <h5 className={"alert alert-danger"}>Error: {this.state.error}</h5>
-                    </FlashMessage>
-                    }
-                    {this.stateError() && !this.state.isLoggedIn &&
-                    <FlashMessage duration={100000} persistOnHover={true}>
-                        <h5 className={"alert alert-danger"}>Error: {this.stateError()}</h5>
-                    </FlashMessage>
-                    }
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <input

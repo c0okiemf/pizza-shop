@@ -45,12 +45,6 @@ class InitDB extends Migration
             $table->foreign("user_id")->references("id")->on("users");
             $table->foreign("address_id")->references("id")->on("addresses");
         });
-        Schema::create("pizzas_orders", function (Blueprint $table) {
-            $table->unsignedBigInteger("pizza_id");
-            $table->unsignedBigInteger("order_id");
-            $table->foreign("pizza_id")->references("id")->on("pizzas");
-            $table->foreign("order_id")->references("id")->on("orders");
-        });
     }
 
     /**
@@ -61,7 +55,6 @@ class InitDB extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists("pizzas_orders");
         Schema::dropIfExists("orders");
         Schema::dropIfExists("addresses");
         Schema::dropIfExists("pizzas_ingredients");

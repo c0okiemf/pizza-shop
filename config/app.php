@@ -3,7 +3,8 @@
 return [
 
     'image_dir' => env('IMAGE_DIR', '/storage'),
-    'delivery_cost' => env('DELIVERY_COST', 10),
+
+    'delivery_cost_usd' => env('DELIVERY_COST', 10),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import FlashMessage from 'react-flash-message';
 import {
     fetchUserFromLocalStorage,
     makeUserStateFromResponse,
     register,
     storeUserInLocalStorage
-} from "../helpers/componentHelpers";
+} from "../../helpers/user";
+import {REGISTER_ROUTE} from "../../helpers/routes"
+import {addCatch, DEFAULT_ERROR_MESSAGE, notifyError, notifySuccess} from "../../helpers/notifications"
 
 class RegisterForm extends Component {
 
@@ -15,8 +16,6 @@ class RegisterForm extends Component {
         super(props);
         this.state = {
             isRegistered: false,
-            error: '',
-            errorMessage: '',
             formSubmitting: false,
             user: {
                 name: '',
@@ -43,43 +42,25 @@ class RegisterForm extends Component {
         })
         ReactDOM.findDOMNode(this).scrollIntoView()
         let userData = this.state.user
-        register(userData)
-            .then(json => {
-                if (json.data.success) {
-                    let userState = makeUserStateFromResponse(json)
-                    storeUserInLocalStorage(userState)
-                    this.setState({
-                        isRegistered: userState.isRegistered,
-                        isLoggedIn: userState.isLoggedIn,
-                        user: userState.user,
-                        error: ""
-                    })
-                    location.reload()
-                } else {
-                    alert('Unable to register your account.')
-                }
-            })
-            .catch(error => {
-                if (error.response) {
-                    let err = error.response.data
-                    this.setState({
-                        error: {
-                            0: err.message
-                        },
-                        errorMessage: err.errors,
-                        formSubmitting: false
-                    })
-                } else {
-                    let err = error.message
-                    this.setState({
-                        error: {
-                            0: err
-                        },
-                        errorMessage: err,
-                        formSubmitting: false
-                    })
-                }
-            })
+        addCatch(
+            axios.post(REGISTER_ROUTE, userData)
+                .then(response => response)
+                .then(json => {
+                    if (json.data.success) {
+                        let userState = makeUserStateFromResponse(json)
+                        storeUserInLocalStorage(userState)
+                        notifySuccess("You registered successfully.")
+                        this.setState({
+                            isRegistered: userState.isRegistered,
+                            isLoggedIn: userState.isLoggedIn,
+                            user: userState.user
+                        })
+                        location.reload()
+                    } else {
+                        throw new Error()
+                    }
+                })
+        )
     }
 
     handleName = (e) => {
@@ -122,34 +103,11 @@ class RegisterForm extends Component {
         }))
     }
 
-    errorMessages = () =>
-        Object.values(this.state.errorMessage).reduce((messages, message) => {
-            messages.push(message);
-            return messages
-        }, [])
-
     render = () => (
         <div className="container">
             <div className="row">
                 <div className="offset-xl-3 col-xl-6 offset-lg-1 col-lg-10 col-md-12 col-sm-12 col-12 ">
                     <h2>Create Your Account</h2>
-                    {this.state.isRegistered &&
-                    <FlashMessage duration={60000} persistOnHover={true}>
-                        <h5 className={"alert alert-success"}>You registered successfully...</h5>
-                    </FlashMessage>
-                    }
-                    {this.state.error &&
-                    <FlashMessage duration={900000} persistOnHover={true}>
-                        <h5 className={"alert alert-danger"}>Error: {this.state.error}</h5>
-                        <ul>
-                            {
-                                this.errorMessages().map((item, i) => (
-                                    <li key={i}><h5 style={{color: 'red'}}>{item}</h5></li>
-                                ))
-                            }
-                        </ul>
-                    </FlashMessage>
-                    }
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <input

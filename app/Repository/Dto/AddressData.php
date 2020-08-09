@@ -101,4 +101,15 @@ class AddressData
         $this->userId = $userId;
         return $this;
     }
+
+    public function toArray() : array
+    {
+        return [
+            "id" => $this->getId(),
+            "zip" => $this->getZip(),
+            "street_address" => $this->getStreetAddress(),
+            "apartment" => $this->getApartment(),
+            "user_id" => $this->getUserId()
+        ];
+    }
 }

@@ -9,10 +9,7 @@ class OrderData
     private AddressData $address;
     private int $userId;
 
-    /**
-     * @var PizzaDataCollection
-     */
-    private PizzaDataCollection $pizzas;
+    private CartData $cartData;
 
     /**
      * @return AddressData
@@ -51,20 +48,20 @@ class OrderData
     }
 
     /**
-     * @return PizzaDataCollection
+     * @return CartData
      */
-    public function getPizzas(): PizzaDataCollection
+    public function getCartData(): CartData
     {
-        return $this->pizzas;
+        return $this->cartData;
     }
 
     /**
-     * @param PizzaDataCollection $pizzas
+     * @param CartData $cartData
      * @return OrderData
      */
-    public function setPizzas(PizzaDataCollection $pizzas): OrderData
+    public function setCartData(CartData $cartData): OrderData
     {
-        $this->pizzas = $pizzas;
+        $this->cartData = $cartData;
         return $this;
     }
 }

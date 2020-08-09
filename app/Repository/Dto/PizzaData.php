@@ -4,6 +4,8 @@
 namespace App\Repository\Dto;
 
 
+use Error;
+
 class PizzaData
 {
     private int $id;
@@ -12,6 +14,9 @@ class PizzaData
     private float $priceUsd;
     private float $priceEur;
     private string $imageUrl;
+
+    private float $cartPrice;
+    private float $cartQuantity;
 
     private IngredientDataCollection $ingredientsCollection;
 
@@ -124,6 +129,24 @@ class PizzaData
     }
 
     /**
+     * @return float
+     */
+    public function getCartPrice(): float
+    {
+        return $this->cartPrice;
+    }
+
+    /**
+     * @param float $cartPrice
+     * @return PizzaData
+     */
+    public function setCartPrice(float $cartPrice): PizzaData
+    {
+        $this->cartPrice = $cartPrice;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getIngredientsCollection(): IngredientDataCollection
@@ -139,5 +162,56 @@ class PizzaData
     {
         $this->ingredientsCollection = $ingredientsCollection;
         return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCartQuantity(): float
+    {
+        return $this->cartQuantity;
+    }
+
+    /**
+     * @param float $cartQuantity
+     * @return PizzaData
+     */
+    public function setCartQuantity(float $cartQuantity): PizzaData
+    {
+        $this->cartQuantity = $cartQuantity;
+        return $this;
+    }
+
+    public function toArray() : array {
+        try {
+            $priceEur = $this->getPriceEur();
+        } catch (Error $e) {
+            $priceEur = "";
+        }
+        try {
+            $cartPrice = $this->getCartPrice();
+        } catch (Error $e) {
+            $cartPrice = "";
+        }
+        try {
+            $cartQuantity = $this->getCartQuantity();
+        } catch (Error $e) {
+            $cartQuantity = "";
+        }
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "description" => $this->getDescription(),
+            "price" => [
+                "usd" => $this->getPriceUsd(),
+                "eur" => $priceEur
+            ],
+            "cart" => [
+                "price" => $cartPrice,
+                "quantity" => $cartQuantity
+            ],
+            "ingredients" => $this->getIngredientsCollection()->toArray(),
+            "image_url" => $this->getImageUrl()
+        ];
     }
 }

@@ -17,8 +17,32 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Order whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Pizza[] $pizzas
+ * @property-read int|null $pizzas_count
+ * @property-read \App\Model\Address $address
+ * @property int $cart_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Order whereCartId($value)
+ * @property-read \App\Model\Cart $cart
  */
 class Order extends Model
 {
-    //
+    public $timestamps = false;
+
+    public function cart()
+    {
+        return $this->belongsTo(
+            Cart::class,
+            "cart_id",
+            "id"
+        );
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(
+            Address::class,
+            "address_id",
+            "id"
+        );
+    }
 }

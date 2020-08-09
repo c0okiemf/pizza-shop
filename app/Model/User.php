@@ -38,6 +38,10 @@ use Laravel\Passport\HasApiTokens;
  * @property-read int|null $clients_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
  * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Address[] $addresses
+ * @property-read int|null $addresses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Order[] $orders
+ * @property-read int|null $orders_count
  */
 class User extends Authenticatable
 {
@@ -74,6 +78,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(
             Address::class,
+            "user_id",
+            "id"
+        );
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(
+            Order::class,
             "user_id",
             "id"
         );

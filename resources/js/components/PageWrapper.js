@@ -1,7 +1,7 @@
-import React from "react";
-import NavBar from "./NavBar";
-import Footer from "./Footer";
-import {fetchUserFromLocalStorage} from "../helpers/componentHelpers";
+import React from "react"
+import Footer from "./Footer"
+import {fetchUserFromLocalStorage} from "../helpers/user"
+import Header from "./Header"
 
 export default function wrapInPage(WrappedComponent, componentProps) {
     return class extends React.Component {
@@ -19,7 +19,7 @@ export default function wrapInPage(WrappedComponent, componentProps) {
             this.setState(newState)
         }
 
-        makeNavBarProps = () => {
+        makeHeaderProps = () => {
             return {
                 ...componentProps,
                 userData: this.state.user,
@@ -29,7 +29,7 @@ export default function wrapInPage(WrappedComponent, componentProps) {
 
         render = () => (
             <div>
-                <NavBar {...this.makeNavBarProps()} />
+                <Header {...this.makeHeaderProps()} />
                 <WrappedComponent {...componentProps}/>
                 <Footer/>
             </div>

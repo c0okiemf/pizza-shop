@@ -8,6 +8,8 @@ use Closure;
 
 class OrderDataCollection
 {
+    private int $userId;
+
     private array $orderDataObjects;
 
     public function add(OrderData $orderData) : void
@@ -20,8 +22,8 @@ class OrderDataCollection
         return (isset($this->orderDataObjects))
             ? array_map(function (OrderData $orderData) {
                 return [
-                    "address_id" => $orderData->getAddressId(),
-                    "pizzas_ids" => $orderData->getPizzasIds()
+                    "address" => $orderData->getAddress()->toArray(),
+                    "cart" => $orderData->getCartData()->toArray()
                 ];
             }, $this->orderDataObjects)
             : [];
@@ -32,5 +34,23 @@ class OrderDataCollection
         foreach ($this->orderDataObjects as $i => $orderData) {
             $callback($orderData, $i);
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param int $userId
+     * @return OrderDataCollection
+     */
+    public function setUserId(int $userId): OrderDataCollection
+    {
+        $this->userId = $userId;
+        return $this;
     }
 }

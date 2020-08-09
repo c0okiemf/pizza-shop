@@ -19,12 +19,7 @@ class AddressDataCollection
     {
         return (isset($this->addressDataObjects))
             ? array_map(function (AddressData $addressData) {
-                return [
-                    "id" => $addressData->getId(),
-                    "zip" => $addressData->getZip(),
-                    "streetAddress" => $addressData->getStreetAddress(),
-                    "apartment" => $addressData->getApartment()
-                ];
+                return $addressData->toArray();
             }, $this->addressDataObjects)
             : [];
     }

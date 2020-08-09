@@ -30,18 +30,23 @@ class EloquentAddressRepository implements AddressRepositoryInterface
     public function showByUser(int $userId) : AddressDataCollection
     {
         $addressDataCollection = new AddressDataCollection();
-        User::find($userId)->getRelation("ingredients")->each(
+        User::find($userId)->addresses->each(
             function (Address $address) use ($addressDataCollection) {
                 $addressDataCollection->add(
-                    (new AddressData())
-                        ->setId($address->id)
-                        ->setZip($address->zip)
-                        ->setStreetAddress($address->street_address)
-                        ->setApartment($address->apartment)
-                        ->setUserId($address->user_id)
+                   $this->makeAddressData($address)
                 );
             }
         );
         return $addressDataCollection;
+    }
+
+    private function makeAddressData(Address $address): AddressData
+    {
+        return (new AddressData())
+            ->setId($address->id)
+            ->setZip($address->zip)
+            ->setStreetAddress($address->street_address)
+            ->setApartment($address->apartment)
+            ->setUserId($address->user_id);
     }
 }

@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Pizza extends Model
 {
+    public $timestamps = false;
+
     public function ingredients()
     {
         return $this->belongsToMany(
@@ -38,6 +40,6 @@ class Pizza extends Model
 
     public function getFullImagePath()
     {
-        return config("app.image_dir") . "/pizzas" . $this->image_name;
+        return config("app.image_dir") . "/pizzas/" . $this->image_name;
     }
 }

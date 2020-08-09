@@ -8,6 +8,7 @@ use App\Model\User;
 use App\Repository\Dto\UserData;
 use App\Repository\EloquentUserRepository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -33,13 +34,13 @@ class AuthController extends Controller
         $tokenResult = $this->authorizeUser($request);
 
         return response()->json([
-            'success' => true,
-            'id' => $createdUserData->getId(),
-            'name' => $createdUserData->getName(),
-            'email' => $createdUserData->getEmail(),
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
+            "success" => true,
+            "id" => $createdUserData->getId(),
+            "name" => $createdUserData->getName(),
+            "email" => $createdUserData->getEmail(),
+            "access_token" => $tokenResult->accessToken,
+            "token_type" => 'Bearer',
+            "expires_at" => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toDateString()
         ], 201);
@@ -55,20 +56,20 @@ class AuthController extends Controller
 
         if (!Auth::attempt($credentials))
             return response()->json([
-                'message' => 'Unauthorized Access, please confirm credentials or verify your email'
+                "message" => "Unauthorized Access, please confirm credentials or verify your email"
             ], 401);
 
         $user = $request->user();
         $tokenResult = $this->authorizeUser($request);
 
         return response()->json([
-            'success' => true,
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
+            "success" => true,
+            "id" => $user->id,
+            "name" => $user->name,
+            "email" => $user->email,
+            "access_token" => $tokenResult->accessToken,
+            "token_type" => 'Bearer',
+            "expires_at" => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toDateTimeString()
         ]);
@@ -82,15 +83,23 @@ class AuthController extends Controller
         ];
     }
 
-    protected function authorizeUser(FormRequest $request)
+    protected function authorizeUser(Request $request)
     {
         $user = $request->user();
-        $tokenResult = $user->createToken('Access Token');
+        $tokenResult = $user->createToken("Access Token");
         $token = $tokenResult->token;
         if ($request->remember_me) {
             $token->expires_at = Carbon::now()->addWeeks(1);
         }
         $token->save();
         return $tokenResult;
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->token()->revoke();
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
     }
 }

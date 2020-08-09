@@ -11,5 +11,5 @@ interface OrderRepositoryInterface
 {
     public function place(OrderData $orderData) : void;
 
-    public function showPlacedByUser(OrderData $orderData) : OrderDataCollection;
+    public function showPlacedByUser(int $userId) : OrderDataCollection;
 }
