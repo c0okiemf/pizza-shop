@@ -23,7 +23,7 @@ class Address extends Component {
         }
     }
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         this.setState({
             ...this.state,
             isUserLoggedIn: isUserLoggedIn(),

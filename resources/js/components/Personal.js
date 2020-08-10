@@ -16,7 +16,7 @@ class Personal extends Component {
         }
     }
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         let newState = fetchUserFromLocalStorage(this.state)
         this.setState(newState)
     }

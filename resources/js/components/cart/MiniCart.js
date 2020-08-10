@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {calculateTotal} from "../../helpers/money";
 import MiniCartProducts from "./MiniCartProducts";
 import {Link} from "react-router-dom"
-
+import styled from "styled-components"
 
 
 class MiniCart extends Component {

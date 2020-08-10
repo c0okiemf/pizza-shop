@@ -27,7 +27,7 @@ class RegisterForm extends Component {
         }
     }
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         let newState = fetchUserFromLocalStorage(this.state)
         if (newState.isLoggedIn) {
             this.props.history.push("/")

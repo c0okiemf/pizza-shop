@@ -35,7 +35,7 @@ class FillDB extends Migration
             ["Margherita",         "If you like cheese with bread, there you go.", 12, "Margherita.jpg"],
             ["Homely",             "Tastes like home.",                            20, "Homely.jpg"],
             ["Hawaiian",           "Basically like Pineapely, but with meat.",     20, "Hawaiian.jpg"],
-            ["4 Cheeses",          "If you like cheese, we got you covered",       20, "4Cheeses.jpg"],
+            ["4 Cheeses",          "If you like cheese, we got you covered.",       20, "4Cheeses.jpg"],
         ];
         DB::table('pizzas')->insert(
             array_map(function ($el) {

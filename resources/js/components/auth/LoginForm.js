@@ -24,7 +24,7 @@ class LoginForm extends Component {
         }
     }
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         let newState = fetchUserFromLocalStorage(this.state)
         const { prevLocation } = this.state.location.state || { prevLocation: { pathname: '/' } }
         this.redirectIfLoggedIn(newState.isLoggedIn)

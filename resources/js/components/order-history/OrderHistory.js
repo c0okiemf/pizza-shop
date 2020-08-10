@@ -20,7 +20,7 @@ class OrderHistory extends Component {
         }
     }
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         this._isMounted = true
         let newState = fetchUserFromLocalStorage(this.state)
         this.setState(newState)

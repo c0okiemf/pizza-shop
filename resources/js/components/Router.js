@@ -14,7 +14,10 @@ import Personal from "./Personal"
 const Router = props => (
     <Switch>
         <Route exact path="/"
-               component={wrapInPage(Menu, {canSwitchCurrency: true})}
+               component={wrapInPage(
+                   Menu,
+                   {canSwitchCurrency: true, withMiniCart: true}
+                   )}
         />
         <Route path="/login"
                component={wrapInPage(Login)}

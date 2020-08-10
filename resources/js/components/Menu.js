@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import {connect} from "react-redux";
 import Products from "./Products";
-import MiniCart from "./cart/MiniCart";
 import {SHOW_PIZZAS_ROUTE} from "../helpers/routes"
 
 class Menu extends Component {
@@ -39,7 +38,6 @@ class Menu extends Component {
     render = () => (
         <span>
             <Products products={this.state.products} />
-            <MiniCart/>
         </span>
     )
 }
