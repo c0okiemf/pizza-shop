@@ -11,6 +11,8 @@ class OrderData
 
     private CartData $cartData;
 
+    private string $createdAt;
+
     /**
      * @return AddressData
      */
@@ -62,6 +64,24 @@ class OrderData
     public function setCartData(CartData $cartData): OrderData
     {
         $this->cartData = $cartData;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     * @return OrderData
+     */
+    public function setCreatedAt(string $createdAt): OrderData
+    {
+        $this->createdAt = $createdAt;
         return $this;
     }
 }

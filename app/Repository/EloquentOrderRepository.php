@@ -150,7 +150,8 @@ class EloquentOrderRepository implements OrderRepositoryInterface
         return (new OrderData())
             ->setUserId($order->user_id)
             ->setAddress($this->makeAddressData($order))
-            ->setCartData($this->makeCartData($order));
+            ->setCartData($this->makeCartData($order))
+            ->setCreatedAt($order->created_at ?? "");
     }
 
     private function makeCartData(Order $order) : CartData

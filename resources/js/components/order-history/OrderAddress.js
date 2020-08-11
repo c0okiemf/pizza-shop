@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import {MainGridElementCentered} from "../checkout/Cart"
 
 
 class OrderAddress extends Component {
@@ -7,9 +8,9 @@ class OrderAddress extends Component {
         this.props.address.zip + " " + this.props.address.street_address + " " + this.props.address.apartment
 
     render = () => (
-        <div>
+        <MainGridElementCentered>
             {this.renderAddressString()}
-        </div>
+        </MainGridElementCentered>
     )
 
 }

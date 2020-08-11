@@ -1,15 +1,20 @@
 import React, {Component} from "react"
 import Product from "../Product"
 import OrderCartProduct from "./OrderCartProduct"
+import styled from "styled-components"
 
+const CartProductsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  grid-gap: 1rem;
+  place-self: normal;
+  padding: 2rem;
+`
 
 class OrderCart extends Component {
 
-    renderAddressString = () =>
-        this.props.address.zip + " " + this.props.address.street_address + " " + this.props.address.apartment
-
     render = () => (
-        <div>
+        <CartProductsContainer>
             {this.props.cart.pizzas.length > 0 &&
                 this.props.cart.pizzas.map((product, i) => (
                     <OrderCartProduct
@@ -19,7 +24,7 @@ class OrderCart extends Component {
                     />
                 ))
             }
-        </div>
+        </CartProductsContainer>
     )
 
 }

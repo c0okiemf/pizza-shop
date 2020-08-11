@@ -8,6 +8,7 @@ const StyledFooter = styled.div`
   background: black;
   min-height: 200px;
   display: grid;
+  grid-row: 3;
 `
 
 const Links = styled.div`

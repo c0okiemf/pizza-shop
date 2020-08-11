@@ -1,27 +1,39 @@
-import React, {Component} from 'react';
-import {Link, withRouter} from 'react-router-dom';
-import ReactDOM from 'react-dom';
+import React, {Component} from "react"
+import {Link, withRouter} from "react-router-dom"
+import ReactDOM from "react-dom"
 import {
     fetchUserFromLocalStorage,
     makeUserStateFromResponse,
-    register,
     storeUserInLocalStorage
-} from "../../helpers/user";
+} from "../../helpers/user"
 import {REGISTER_ROUTE} from "../../helpers/routes"
 import {addCatch, DEFAULT_ERROR_MESSAGE, notifyError, notifySuccess} from "../../helpers/notifications"
+import {EqualColumnsContainer, RowGrid, StyledInput} from "../checkout/Address"
+import {ContinueButton} from "../checkout/Cart"
+import styled from "styled-components"
+
+export const StyledH2 = styled.h2`
+  text-align: center;
+`
+
+export const StyledQuestion = styled.p`
+  font-size: 1.5rem;
+  grid-row: 1;
+  place-self: center start;
+`
 
 class RegisterForm extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             isRegistered: false,
             formSubmitting: false,
             user: {
-                name: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
+                name: "",
+                email: "",
+                password: "",
+                password_confirmation: "",
             },
             location: props.location
         }
@@ -104,68 +116,43 @@ class RegisterForm extends Component {
     }
 
     render = () => (
-        <div className="container">
-            <div className="row">
-                <div className="offset-xl-3 col-xl-6 offset-lg-1 col-lg-10 col-md-12 col-sm-12 col-12 ">
-                    <h2>Create Your Account</h2>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            <input
-                                id="name"
-                                type="text"
-                                placeholder="Name"
-                                className="form-control"
-                                required
-                                onChange={this.handleName}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <input
-                                id="email"
-                                type="email"
-                                name="email"
-                                placeholder="E-mail"
-                                className="form-control"
-                                required
-                                onChange={this.handleEmail}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                className="form-control"
-                                required
-                                onChange={this.handlePassword}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <input
-                                id="password_confirm"
-                                type="password"
-                                name="password_confirm"
-                                placeholder="Confirm Password"
-                                className="form-control"
-                                required
-                                onChange={this.handlePasswordConfirm}
-                            />
-                        </div>
-                        <button type="submit" name="singlebutton" className="btn btn-default btn-lg  btn-block mb10"
-                                disabled={this.state.formSubmitting ? "disabled" : ""}>Create Account
-                        </button>
-                    </form>
-                    <p className="text-white">Already have an account?
-                        <Link to="/login" className="text-yellow"> Log In</Link>
-                        <span className="pull-right">
-                                <Link to="/" className="text-white">Back to Home</Link>
-                            </span>
-                    </p>
-                </div>
-            </div>
-        </div>
+        <RowGrid>
+            <StyledH2>Create Your Account</StyledH2>
+            <StyledInput
+                type="text"
+                placeholder="Name"
+                onChange={this.handleName}
+            />
+            <StyledInput
+                type="email"
+                name="email"
+                placeholder="E-mail"
+                onChange={this.handleEmail}
+            />
+            <StyledInput
+                type="password"
+                name="password"
+                placeholder="Password"
+                onChange={this.handlePassword}
+            />
+            <StyledInput
+                type="password"
+                name="password_confirm"
+                placeholder="Confirm Password"
+                onChange={this.handlePasswordConfirm}
+            />
+            <EqualColumnsContainer>
+                <StyledQuestion>Already have an account?
+                    <Link to="/login" className="text-yellow"> Log In</Link>
+                </StyledQuestion>
+                <ContinueButton onClick={this.handleSubmit}
+                                disabled={this.state.formSubmitting ? "disabled" : ""}
+                >
+                    Register
+                </ContinueButton>
+            </EqualColumnsContainer>
+        </RowGrid>
     )
 }
 
-export default withRouter(RegisterForm);
+export default withRouter(RegisterForm)

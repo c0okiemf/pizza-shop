@@ -12,6 +12,7 @@ const ControlsWrapper = styled.div`
   color: white;
   user-select: none;
   cursor: pointer;
+  height: 100%;
 `
 
 const AddProductButton = styled.div`

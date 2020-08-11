@@ -1,9 +1,19 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {currencyGlyph} from "../../helpers/money";
-import {commaSeparateIngredients} from "../../helpers/products";
-import ProductControls from "../ProductControls";
+import styled from "styled-components"
+import MiniCartProductControls from "./MiniCartProductControls"
 
+const NamePriceContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  place-items: center;
+  height: 40px;
+`
+
+const ProductContainer = styled.div`
+  margin-bottom: 10px;
+`
 
 class MiniCartProduct extends Component {
 
@@ -14,16 +24,15 @@ class MiniCartProduct extends Component {
         this.props.product.price[this.props.selectedCurrency] * this.props.product.quantity
 
     render = () => (
-        <div>
-            <img width="200px" src={this.props.product.image_url} alt=""/>
-            <div>{this.props.product.name}</div>
-            <div>{commaSeparateIngredients(this.props.product.ingredients)}</div>
-            <div>{this.props.product.description}</div>
-            <div>{this.formatPrice(this.calculatePrice())}</div>
+        <ProductContainer>
+            <NamePriceContainer>
+                <div>{this.props.product.name}</div>
+                <div>{this.formatPrice(this.calculatePrice())}</div>
+            </NamePriceContainer>
             <div>
-                <ProductControls product={this.props.product} quantity={this.props.product.quantity} />
+                <MiniCartProductControls product={this.props.product} quantity={this.props.product.quantity} />
             </div>
-        </div>
+        </ProductContainer>
     )
 }
 

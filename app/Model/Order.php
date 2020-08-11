@@ -23,11 +23,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $cart_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Order whereCartId($value)
  * @property-read \App\Model\Cart $cart
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Order whereUpdatedAt($value)
  */
 class Order extends Model
 {
-    public $timestamps = false;
-
     public function cart()
     {
         return $this->belongsTo(

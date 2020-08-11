@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import {connect} from "react-redux";
 import Products from "./Products";
 import {SHOW_PIZZAS_ROUTE} from "../helpers/routes"
+import {CSSTransitionGroup} from "react-transition-group"
 
 class Menu extends Component {
     _isMounted = false

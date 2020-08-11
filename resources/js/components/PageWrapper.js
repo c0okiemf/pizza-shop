@@ -5,31 +5,26 @@ import Header from "./Header"
 import styled from "styled-components"
 import Products from "./Products"
 import MiniCart from "./cart/MiniCart"
+import {MOBILE_WIDTH} from "../app"
 
 const Page = styled.div`
   display: grid;
   grid-template: auto 1fr auto / minmax(300px, 1fr) minmax(200px,1000px) minmax(300px, 1fr);
   min-height: 100vh;
   grid-gap: 2vh 2vw;
-  @media screen and (max-width: 769px) {
+  background: white;
+  @media screen and (max-width: ${MOBILE_WIDTH}px) {
     & {
-      grid-template: auto 1fr auto / 1fr minmax(200px,1000px) 1fr;
+      grid-template: 126px 1fr auto / 1fr minmax(200px,1000px) 1fr;
     }
   }
 `
 
 const Container = styled.div`
   grid-column: 2;
-`
-
-const MiniCartContainer = styled.div`
-  grid-column: 3;
   grid-row: 2;
 `
-
 export default function wrapInPage(WrappedComponent, componentProps) {
-
-
 
     return class extends React.Component {
 
@@ -60,10 +55,8 @@ export default function wrapInPage(WrappedComponent, componentProps) {
                 <Container>
                     <WrappedComponent {...componentProps}/>
                 </Container>
-                {componentProps.withMiniCart === true &&
-                    <MiniCartContainer>
-                        <MiniCart/>
-                    </MiniCartContainer>
+                {componentProps !== undefined && componentProps.withMiniCart === true &&
+                    <MiniCart/>
                 }
                 <Footer/>
             </Page>

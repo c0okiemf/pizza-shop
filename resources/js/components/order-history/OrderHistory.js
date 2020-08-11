@@ -3,6 +3,8 @@ import {fetchUserFromLocalStorage, makeAuthorizedHeader} from "../../helpers/use
 import {addCatch} from "../../helpers/notifications"
 import {SHOW_USER_ORDERS_ROUTE} from "../../helpers/routes"
 import Orders from "./Orders"
+import {MainGridElementCentered} from "../checkout/Cart"
+import {RowGrid} from "../checkout/Address"
 
 class OrderHistory extends Component {
     _isMounted = false
@@ -46,9 +48,12 @@ class OrderHistory extends Component {
         )
 
     render = () => (
-        <div>
-            <Orders orders={this.state.orders} />
-        </div>
+        <RowGrid>
+            {this.state.orders.length > 0
+                ? <Orders orders={this.state.orders} />
+                : <MainGridElementCentered>Seems like you haven't made any orders yet...</MainGridElementCentered>
+            }
+        </RowGrid>
     )
 }
 

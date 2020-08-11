@@ -7,7 +7,7 @@ import ProductControls from "./ProductControls";
 import styled from "styled-components"
 import {StyledImage} from "./Header"
 
-const ProductCard = styled.div`
+export const ProductCard = styled.div`
   display: grid;
   grid-template-rows: 40% 10% 10% 15% 10% 15%;
   border-radius: 20px;
@@ -15,17 +15,17 @@ const ProductCard = styled.div`
   height: 370px;
 `
 
-const ProductImage = styled(StyledImage)`
+export const ProductImage = styled(StyledImage)`
   border-radius: 20px 20px 0 0;
 `
 
-const ProductName = styled.div`
+export const ProductName = styled.div`
   place-self: center;
   font-size: 1.3rem;
   font-weight: bold;
 `
 
-const ProductIngredients = styled.div`
+export const ProductIngredients = styled.div`
   font-size: 0.7rem;
   place-self: center;
   text-align: center;
@@ -33,17 +33,18 @@ const ProductIngredients = styled.div`
   color: #00000091;
 `
 
-const ProductDescription = styled.div`
+export const ProductDescription = styled.div`
   font-style: italic;
   place-self: center;
   text-align: center;
   padding: 0 20px;
 `
 
-const ProductPrice = styled.div`
- padding-left: 20px;
- font-size: 1.5rem;
- font-weight: bold;
+export const ProductPrice = styled.div`
+  padding-left: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 6px black;
 `
 
 class Product extends Component {
