@@ -1,11 +1,17 @@
 import React, {Component} from "react";
 import Product from "./Product";
+import styled from "styled-components"
 
+export const ProductWrapper = styled.div`
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+`
 
 class Products extends Component {
 
     render = () => (
-        <div>
+        <ProductWrapper>
             {this.props.products.length > 0 &&
                 this.props.products.map((product, i) => (
                     <Product
@@ -14,7 +20,7 @@ class Products extends Component {
                     />
                 ))
             }
-        </div>
+        </ProductWrapper>
     )
 
 }

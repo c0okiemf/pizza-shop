@@ -12,4 +12,6 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+export const MOBILE_WIDTH = 769
+
 require('./components/Index');

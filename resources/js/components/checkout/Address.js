@@ -2,10 +2,61 @@ import React, {Component} from "react"
 import {isUserLoggedIn} from "../../helpers/user"
 import Select from "react-select"
 import {connect} from "react-redux"
-import {PLACE_ORDER_ROUTE} from "../../helpers/routes"
-import {NotificationManager} from "react-notifications"
-import {DEFAULT_ERROR_MESSAGE, notifyError} from "../../helpers/notifications"
+import {notifyError} from "../../helpers/notifications"
+import styled from "styled-components"
+import {ContinueButton} from "./Cart"
+import {StyledH2} from "../auth/RegisterForm"
 
+export const RowGrid = styled.div`
+  display: grid;
+  grid-gap: 2rem;
+  place-self: center;
+  width: 100%;
+`
+
+export const StyledInput = styled.input`
+  height: 50px;
+  border-radius: 9px;
+  font-size: 1.5rem;
+  padding-left: 20px;
+  appearance: none;
+  margin: 0;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  &:disabled {
+    background: black;
+    color: white;
+  }
+`
+
+const StyledSelect = styled(Select)`
+  height: 50px;
+  border-radius: 9px;
+  font-size: 1.5rem;
+  margin: 0;
+`
+
+export const EqualColumnsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 50%);
+`
+
+const customSelectStyle = {
+    control: (provided) => ({
+        ...provided,
+        borderRadius: "inherit",
+        backgroundColor: "rgb(245 247 248)",
+        border: "2px solid #b5b6b7",
+        paddingLeft: "20px"
+    }),
+    valueContainer: (provided) => ({
+        ...provided,
+        padding: 0
+    }),
+}
 
 class Address extends Component {
 
@@ -23,7 +74,7 @@ class Address extends Component {
         }
     }
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         this.setState({
             ...this.state,
             isUserLoggedIn: isUserLoggedIn(),
@@ -99,7 +150,9 @@ class Address extends Component {
     ]
 
     makeAddressDefaultOption = () => {
-        return this.makeSingleAddressOption(this.props.userAddresses[0])
+        if (this.props.userAddresses !== undefined && this.props.userAddresses.length > 0) {
+            return this.makeSingleAddressOption(this.props.userAddresses[0])
+        }
     }
 
     makeSingleAddressOption = (address) => (
@@ -113,16 +166,20 @@ class Address extends Component {
         this.setState({
             ...this.state,
             selectedAddressId: selectedOption.value,
-            ...(selectedOption.value !== undefined
-                    ? this.makeSelectedAddressForState(selectedOption.value)
-                    : {}
-            ),
+            ...this.makeSelectedAddressForState(selectedOption.value),
             selectedAddressOption: selectedOption
         })
     }
 
     makeSelectedAddressForState = (addressId) => {
-        let foundAddress = this.getAddressWithId(addressId)
+        let foundAddress = {
+            zip: "",
+            street_address: "",
+            apartment: ""
+        }
+        if (addressId !== undefined) {
+            foundAddress = this.getAddressWithId(addressId)
+        }
         return {
             address: {
                 zip: foundAddress.zip,
@@ -141,32 +198,35 @@ class Address extends Component {
 
 
     render = () => (
-        <div>
+        <RowGrid>
             {this.isLoggedInAndHasAddresses() && <>
-                <label>Select a stored address or choose "New Address"</label>
-                <Select
+                <StyledH2>Select a saved address or choose "New Address"</StyledH2>
+                <StyledSelect
                     value={this.state.selectedAddressOption}
                     onChange={this.handleSelectChange}
                     options={this.makeAddressOptions()}
+                    styles={customSelectStyle}
                 />
             </>}
-            <input type="number" name="zip" value={this.state.address.zip}
+            <StyledInput type="number" name="zip" value={this.state.address.zip}
                    onChange={this.handleInput}
                    placeholder="ZIP"
                    disabled={this.isAddressSelected()}
             />
-            <input type="text" name="street_address" value={this.state.address.street_address}
+            <StyledInput type="text" name="street_address" value={this.state.address.street_address}
                    onChange={this.handleInput}
                    placeholder="Street Address"
                    disabled={this.isAddressSelected()}
             />
-            <input type="number" name="apartment" value={this.state.address.apartment}
+            <StyledInput type="number" name="apartment" value={this.state.address.apartment}
                    onChange={this.handleInput}
                    placeholder="Apartment №"
                    disabled={this.isAddressSelected()}
             />
-            <div onClick={this.submitOrder}>Place order</div>
-        </div>
+            <EqualColumnsContainer>
+                <ContinueButton onClick={this.submitOrder}>Place order</ContinueButton>
+            </EqualColumnsContainer>
+        </RowGrid>
     )
 
 }

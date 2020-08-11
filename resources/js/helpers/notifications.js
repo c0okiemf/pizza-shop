@@ -15,11 +15,7 @@ export const addCatch = (promise) => {
         .catch(error => {
             let errors = error.response.data.errors
             if (errors !== undefined) {
-                notifyError(Object.values(errors).reduce(
-                    (errorString, msg) =>
-                        errorString + msg + "<br>"
-                    )
-                )
+                notifyError(Object.values(errors))
             } else {
                 notifyError(DEFAULT_ERROR_MESSAGE)
             }

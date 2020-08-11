@@ -23,7 +23,8 @@ class OrderDataCollection
             ? array_map(function (OrderData $orderData) {
                 return [
                     "address" => $orderData->getAddress()->toArray(),
-                    "cart" => $orderData->getCartData()->toArray()
+                    "cart" => $orderData->getCartData()->toArray(),
+                    "created_at" => $orderData->getCreatedAt()
                 ];
             }, $this->orderDataObjects)
             : [];

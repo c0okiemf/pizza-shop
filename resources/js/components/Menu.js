@@ -1,8 +1,8 @@
 import React, {Component} from "react"
 import {connect} from "react-redux";
 import Products from "./Products";
-import MiniCart from "./cart/MiniCart";
 import {SHOW_PIZZAS_ROUTE} from "../helpers/routes"
+import {CSSTransitionGroup} from "react-transition-group"
 
 class Menu extends Component {
     _isMounted = false
@@ -39,7 +39,6 @@ class Menu extends Component {
     render = () => (
         <span>
             <Products products={this.state.products} />
-            <MiniCart/>
         </span>
     )
 }

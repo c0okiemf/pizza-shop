@@ -7,7 +7,13 @@ import {connect} from "react-redux"
 import Done from "./Done"
 import {emptyCart} from "../actions/actions"
 import {isUserLoggedIn, makeAuthorizedHeader} from "../../helpers/user"
+import styled from "styled-components"
 
+export const CenteredContainer = styled.div`
+  display: grid;
+  width: 100%;
+  height: 100%;
+`
 
 class Checkout extends Component {
 
@@ -66,7 +72,7 @@ class Checkout extends Component {
     )
 
     render = () => (
-        <div>
+        <CenteredContainer>
             {this.state.phase === Checkout.phases.CART &&
                 <Cart confirmCart={this.confirmCart}/>
             }
@@ -76,7 +82,7 @@ class Checkout extends Component {
             {this.state.phase === Checkout.phases.DONE &&
                 <Done/>
             }
-        </div>
+        </CenteredContainer>
     )
 
 }
