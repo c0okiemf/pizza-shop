@@ -22,11 +22,14 @@ const MiniCartFixed = styled.div`
 
 const MobileMiniCart = styled.div`
   position: fixed;
-  top: 126px;
+  top: 0;
   right: 0;
   padding: 15px;
   background: black;
   border-radius: 0 0 0 20px;
+  height: 200px;
+  place-content: end;
+  display: grid;
 `
 
 const CartImage = styled.img`
