@@ -42,7 +42,10 @@ const Router = props => (
                            component={wrapInPage(OrderHistory)}
             />
 
-            <Route component={wrapInPage(NotFound)}/>
+            <Route component={wrapInPage(
+                Menu,
+                {canSwitchCurrency: true, withMiniCart: true}
+            )}/>
         </Switch>
     </CSSTransitionGroup>
 )

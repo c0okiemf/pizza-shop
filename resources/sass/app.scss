@@ -7,6 +7,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+html {
+    overflow-y: scroll;
+}
+
 body {
     background: black;
 }
